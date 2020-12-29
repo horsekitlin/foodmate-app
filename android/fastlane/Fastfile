@@ -31,9 +31,9 @@ platform :android do
     )
 
     firebase_app_distribution(
-      app: "1:791710450866:android:580488bbd7c2ceda2a35ab",
-      groups: "foodmate-android",
-      firebase_cli_token: "4/1AY0e-g4ur2ySlT1z9GrqtvnxxrAlLv6SJdy2tAbuHWzx0sCR28-NfliaFFU"
+      app: ENV["APP"],
+      groups: ENV["GROUP_NAME"],
+      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"]
     )
     # sh "your_script.sh"
     # You can also use other beta testing services here
