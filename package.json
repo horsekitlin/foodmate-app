@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "deploy:android-uat": "source ./rcs/androidrc && cd android && fastlane beta && cd ..",
-    "deploy:ios-uat": "source ./rcs/iosrc && cd ios && fastlane beta && cd ..",
+    "deploy:ios-uat": "source ./rcs/iosrc && cd ios && bundle install && bundle exec fastlane beta && cd ..",
     "postJSMajorVersion": "npm version major",
     "postJSMinorVersion": "npm version minor",
     "postJSPatchVersion": "npm version patch",
