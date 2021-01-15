@@ -23,11 +23,11 @@ platform :ios do
 
   desc "deploy testflight"
   lane :beta do
-    match(type: "appstore", app_identifier: ENV["FASTLANE_IOS_APP_ID"], readonly: true)
+    match(type: "adhoc", app_identifier: ENV["FASTLANE_IOS_APP_ID"], readonly: true)
 
     build_app(
       include_bitcode: true,
-      export_method: "app-store",
+      export_method: "ad-hoc",
       scheme: ENV["FASTLANE_IOS_SCHEMA"],
       workspace: ENV["FASTLANE_IOS_WORKSPACE"],
       export_options: {
@@ -35,7 +35,10 @@ platform :ios do
           ENV["FASTLANE_IOS_APP_ID"] => ENV["FASTLANE_IOS_APP_PROFILE"],
         }
       })
-
-    upload_to_testflight
+      firebase_app_distribution(
+        app: ENV['FIREBASE_APP_ID'],
+        groups: ENV['FIREBASE_GROUPS'],
+        ipa_path: ENV['IPA_PATH']
+      )
   end
 end

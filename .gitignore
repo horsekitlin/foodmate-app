@@ -69,3 +69,5 @@ vendor
 appcenter-config.json
 screenshots
 fastlaneEnv
+androidrc
+iosrc
