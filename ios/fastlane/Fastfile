@@ -17,24 +17,25 @@ default_platform(:ios)
 
 platform :ios do
   desc "Description of what the lane does"
-  lane :custom_lane do
-    # add actions here: https://docs.fastlane.tools/actions
+  lane :update_match do
+    match(type: "adhoc", app_identifier: ENV["FASTLANE_IOS_APP_ID"])
   end
+
 
   desc "deploy testflight"
   lane :beta do
-    # match(type: "adhoc", app_identifier: ENV["FASTLANE_IOS_APP_ID"], readonly: true)
+    match(type: "adhoc", app_identifier: ENV["FASTLANE_IOS_APP_ID"], readonly: true)
 
-    # build_app(
-    #   include_bitcode: true,
-    #   export_method: "ad-hoc",
-    #   scheme: ENV["FASTLANE_IOS_SCHEMA"],
-    #   workspace: ENV["FASTLANE_IOS_WORKSPACE"],
-    #   export_options: {
-    #     provisioningProfiles: { 
-    #       ENV["FASTLANE_IOS_APP_ID"] => ENV["FASTLANE_IOS_APP_PROFILE"],
-    #     }
-    #   })
+    build_app(
+      include_bitcode: true,
+      export_method: "ad-hoc",
+      scheme: ENV["FASTLANE_IOS_SCHEMA"],
+      workspace: ENV["FASTLANE_IOS_WORKSPACE"],
+      export_options: {
+        provisioningProfiles: { 
+          ENV["FASTLANE_IOS_APP_ID"] => ENV["FASTLANE_IOS_APP_PROFILE"],
+        }
+      })
       firebase_app_distribution(
         app: ENV['FIREBASE_APP_ID'],
         groups: ENV['FIREBASE_GROUPS'],
