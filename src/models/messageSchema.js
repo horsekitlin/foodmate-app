@@ -1,3 +1,5 @@
+import imageSchema from './imageSchema';
+
 const messageSchema = {
   title: 'messages',
   version: 0,
@@ -13,6 +15,10 @@ const messageSchema = {
       default: '',
     },
     image: {
+      type: 'string',
+      default: '',
+    },
+    room: {
       type: 'string',
       default: '',
     },
@@ -33,9 +39,7 @@ const messageSchema = {
         name: {
           type: 'string',
         },
-        avatar: {
-          type: 'string',
-        },
+        avatar: imageSchema,
       }
     },
     createAt: {

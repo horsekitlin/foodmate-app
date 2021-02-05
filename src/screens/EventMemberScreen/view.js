@@ -6,6 +6,7 @@ import {useNavigation} from 'react-native-navigation-hooks';
 import {useEventDetail} from '~/models';
 import RowItem from './components/RowItem';
 import MemberModal from './components/MemberModal';
+import ViewContainer from '~/components/ViewContainer';
 
 const SectionTitle = ({title}) => {
   return (
@@ -58,7 +59,7 @@ const EventMemberScreen = ({ authUserId, eventId, handleValidEventMember,handleR
   const isAdmin = authUserId === event.creator.id;
 
   return (
-    <Fragment>
+    <ViewContainer>
       <MemberModal
         push={push}
         eventId={event.id}
@@ -79,7 +80,7 @@ const EventMemberScreen = ({ authUserId, eventId, handleValidEventMember,handleR
           <SectionTitle title={title} />
         )}
       />
-    </Fragment>
+    </ViewContainer>
   );
 };
 

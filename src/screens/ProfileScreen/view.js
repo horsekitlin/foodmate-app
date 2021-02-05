@@ -2,10 +2,12 @@ import React, {Fragment, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useNavigation} from 'react-native-navigation-hooks/dist';
 import {useNavigationButtonPress} from 'react-native-navigation-hooks';
-import {Avatar, Button as NativeButton} from 'react-native-elements';
+import { Button as NativeButton} from 'react-native-elements';
 import colors from '../../theme/color';
 import shadow from '../../theme/shadow';
 import Text from '~/components/Text';
+import Avatar from '~/components/Avatar';
+import ViewContainer from '~/components/ViewContainer';
 import QRCodeModal from './components/QRCodeModal';
 
 const TOP_BAR_RIGHT_BUTTON_ID = '#$%_right_button';
@@ -29,7 +31,7 @@ const ProfileScreen = ({componentId, auth}) => {
   });
 
   return (
-    <Fragment>
+    <ViewContainer>
       <QRCodeModal
         value={auth.get('account')}
         isVisible={showModal}
@@ -39,8 +41,9 @@ const ProfileScreen = ({componentId, auth}) => {
       <View style={styles.infoBox}>
         <Avatar
           rounded
-          style={styles.avatar}
-          source={{uri: auth.get('avatar')}}
+          avatarStyle={styles.avatar}
+          containerStyle={styles.avatarContainer}
+          source={{uri: auth.getIn(['avatar', 'url'])}}
         />
         <View>
           <Text style={styles.nickname}>{auth.get('name')}</Text>
@@ -56,7 +59,7 @@ const ProfileScreen = ({componentId, auth}) => {
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
           containerStyle={styles.buttonContainer}
-          onPress={onGoToPath('EditProfile', { username: auth.get('name'), description: auth.get('description') })}
+          onPress={onGoToPath('EditProfile', { username: auth.get('name'), description: auth.get('description'), avatar: auth.get('avatar') })}
         />
         <NativeButton
           title='設定'
@@ -66,7 +69,7 @@ const ProfileScreen = ({componentId, auth}) => {
           onPress={onGoToPath('Setting')}
         />
       </View>
-    </Fragment>
+    </ViewContainer>
   );
 };
 
@@ -103,6 +106,21 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     backgroundColor: '#fff',
   },
+
+  avatar: {
+    borderRadius: 80,
+    overflow: 'hidden'
+  },
+  avatarContainer: {
+    width: 80,
+    height: 80,
+    borderWidth: 5,
+    borderRadius: 80,
+    marginRight: 20,
+    borderColor: '#fff',
+    backgroundColor: '#fff',
+    ...shadow.black,
+  },
   introZone: {
     paddingTop: 20,
     paddingLeft: 30,
@@ -116,16 +134,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  avatar: {
-    width: 80,
-    height: 80,
-    borderWidth: 5,
-    marginRight: 15,
-    borderRadius: 80,
-    borderColor: '#fff',
-    backgroundColor: '#fff',
-    ...shadow.black,
-  },
+ 
   buttonTitle: {
     fontSize: 12,
     lineHeight: 10,

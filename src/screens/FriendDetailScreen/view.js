@@ -1,5 +1,4 @@
 import React, {Fragment} from 'react';
-import {Avatar} from 'react-native-elements';
 import {View, StyleSheet, Image} from 'react-native';
 import isEmpty from 'lodash/isEmpty';
 import {useFriendDetail} from '~/models';
@@ -7,6 +6,8 @@ import Button from '~/components/Button';
 import colors from '../../theme/color';
 import shadow from '../../theme/shadow';
 import Text from '~/components/Text';
+import Avatar from '~/components/Avatar';
+import ViewContainer from '~/components/ViewContainer';
 import {useNavigation} from 'react-native-navigation-hooks';
 import image from '~/assets/images/actor-ghost-donut.png';
 
@@ -26,12 +27,12 @@ const FriendDetailScreen = ({friendId}) => {
   if (isEmpty(friend)) return <EmptyFriendContent />;
 
   return (
-    <View style={styles.container}>
+    <ViewContainer style={styles.container}>
       <View style={styles.infoBox}>
         <Avatar
           rounded
           style={styles.avatar}
-          source={{uri: friend.get('avatar')}}
+          source={{uri: friend.get(['avatar', 'url'])}}
         />
         <View>
           <Text style={styles.nickname}>{friend.get('name')}</Text>
@@ -50,7 +51,7 @@ const FriendDetailScreen = ({friendId}) => {
         type='outline'
         onPress={() => push('FriendSetting', {friendId: friend.get('friendId')})}
       />
-    </View>
+    </ViewContainer>
   );
 };
 

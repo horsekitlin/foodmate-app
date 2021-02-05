@@ -1,6 +1,7 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {ListItem, Avatar} from 'react-native-elements';
+import {ListItem} from 'react-native-elements';
+import Avatar from '~/components/Avatar';
 
 async function asyncIteratorWatcher(channel, userId) {
   let asyncIterator = channel.createConsumer();
@@ -15,7 +16,7 @@ const VerifyFriendRowItem = ({item, push}) => (
     <TouchableOpacity
       style={{flex: 1, flexDirection: 'row'}}
       onPress={() => push('SearchFriend', {friendAccount: item.account})}>
-      <Avatar source={{uri: item.avatar}} />
+      <Avatar source={{uri: item.avatar.url}} />
       <ListItem.Content style={{marginLeft: 10}}>
         <ListItem.Title>{item.name}</ListItem.Title>
         <ListItem.Subtitle>{item.account}</ListItem.Subtitle>
@@ -34,7 +35,7 @@ const FriendRowItem = ({item, push}) => (
     <TouchableOpacity
       style={{flex: 1, flexDirection: 'row'}}
       onPress={() => push('FriendDetail', {friendId: item.id})}>
-      <Avatar source={{uri: item.avatar}} />
+      <Avatar source={{uri: item.avatar.url}} />
       <ListItem.Content style={{marginLeft: 10}}>
         <ListItem.Title>{item.name}</ListItem.Title>
         <ListItem.Subtitle>{item.account}</ListItem.Subtitle>

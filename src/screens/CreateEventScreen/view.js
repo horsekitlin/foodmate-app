@@ -1,47 +1,46 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import * as yup from 'yup';
-import {View, ScrollView, StyleSheet} from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import isEmpty from 'lodash/isEmpty';
 import Button from '~/components/Button';
 import TextArea from '~/components/TextArea';
 import TextInputField from '~/components/Inputs/TextInputField';
 import DatetimeModal from './components/DatetimeModal';
 import SelectInput from '~/components/Inputs/SelectInput';
-import InputImage from '~/components/Inputs/InputImage';
+import InputIcon from '~/components/Inputs/InputIcon';
 import ConfirmDialog from './components/ConfirmDialog';
 import PickPlaceModal from './components/PickPlaceModal';
 import EventPhotoBlock from '~/components/EventPhotoBlock';
-import {handleUploadImage} from '~/helper/imageUploadHelper';
-import {PAYMENT_METHOD, EVENT_TYPES} from '~/constants/selectItems';
-import {useNavigation} from 'react-native-navigation-hooks';
-import {handleYupSchema, handleYupErrors} from '~/helper/yupHelper';
-import {
-  iconTag,
-  inputCoin,
-  iconLocate,
-  iconTicket,
-  iconPerson,
-  inputCredit,
-  inputCalendar,
-  inputDeadline,
-  iconTagError,
-  inputCoinError,
-  iconPersonError,
-  iconLocateError,
-  iconTicketError,
-  inputCreditError,
-  inputDeadlineError,
-  inputCalendarError,
-} from '~/assets/icons';
+import { handleUploadImage, handleDeleteImage } from '~/helper/imageUploadHelper';
+import { PAYMENT_METHOD, EVENT_TYPES } from '~/constants/selectItems';
+import { useNavigation } from 'react-native-navigation-hooks';
+import { handleYupSchema, handleYupErrors } from '~/helper/yupHelper';
 import {
   urlSchema,
   nameSchema,
   enumSchema,
   dateSchema,
 } from '~/constants/yupSchemas';
+import colors from '~/theme/color';
+import { getResolution, RESOLUTION } from '~/helper/imageResolutionHelper';
+
+const DEFAULT_EVENT_IMAGE = {
+  id: '9a8c43cd1bef6b3a0d66bd88c8cb2ee9',
+  type: 'image/jpg',
+  url: 'https://www.bomb01.com/upload/news/original/9a8c43cd1bef6b3a0d66bd88c8cb2ee9.jpg',
+  deletehash: '',
+};
+import ViewContainer from '~/components/ViewContainer';
+
+const logoSchema = yup.object().shape({
+  deletehash: yup.string(),
+  id: yup.string(),
+  type: yup.string(),
+  url:  urlSchema('錯誤的圖片連結', '請上傳活動照片'),
+});
 
 const schema = yup.object().shape({
-  logo: urlSchema('錯誤的圖片連結', '請上傳活動照片'),
+  logo: logoSchema,
   type: enumSchema([0, 1, 2], '錯誤的活動類型', '請選擇活動類型'),
   paymentMethod: enumSchema([0, 1, 2, 3], '錯誤的分攤方式', '請選擇分攤方式'),
   budget: yup.number().typeError('請輸入數字金額').required('請輸入預算'),
@@ -53,8 +52,8 @@ const schema = yup.object().shape({
   place: yup.object().required('請選擇活動地點'),
 });
 
-const onUploadSuccess = (setter) => (link) => {
-  setter({url: link});
+const onUploadSuccess = (setter) => (data) => {
+  setter(data);
 };
 
 const onUploadError = (error) => {
@@ -74,13 +73,17 @@ const validateData = async (payload, setErrors) => {
   }
 };
 
-const onUploadImage = (setUploadedImage) => () => {
+const onUploadImage = (deleteHash, setUploadedImage) => () => {
+ if(!isEmpty(deleteHash))
+    handleDeleteImage(deleteHash);
+
   handleUploadImage(onUploadSuccess(setUploadedImage), onUploadError);
 };
 
 const submit = (payload, setErrors, setDialogVisible) => async () => {
   if (await validateData(payload, setErrors)) {
     setDialogVisible(true);
+    return;
   }
 };
 
@@ -97,7 +100,7 @@ const CreateActivityScreen = (props) => {
   const [type, setType] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState(0);
   const [budget, setBudget] = useState('100');
-  const [uploadedImage, setUploadedImage] = useState({url: 'https://www.bomb01.com/upload/news/original/9a8c43cd1bef6b3a0d66bd88c8cb2ee9.jpg'});
+  const [uploadedImage, setUploadedImage] = useState(DEFAULT_EVENT_IMAGE);
   const [title, setTitle] = useState('test003');
   const [userCountMax, setUserCountMax] = useState('2');
   const [description, setDescription] = useState('teskldfjasdlkfj');
@@ -109,7 +112,7 @@ const CreateActivityScreen = (props) => {
   const {push} = useNavigation();
 
   const payload = {
-    logo: uploadedImage.url,
+    logo: { ...uploadedImage },
     publicationPlace: '台北',
     type,
     paymentMethod,
@@ -137,12 +140,13 @@ const CreateActivityScreen = (props) => {
   const confirmPlace = handleConfirmPlace(setPlace);
 
   return (
+    <ViewContainer>
     <ScrollView
       contentContainerStyle={styles.scroll}
       keyboardShouldPersistTaps='always'>
       <EventPhotoBlock
-        uri={uploadedImage.url}
-        onEditClick={onUploadImage(setUploadedImage)}
+        uri={getResolution(uploadedImage.url, RESOLUTION.MEDIUM)}
+        onEditClick={onUploadImage(uploadedImage.deletehash, setUploadedImage)}
       />
       <ConfirmDialog
         payload={payload}
@@ -155,14 +159,16 @@ const CreateActivityScreen = (props) => {
           name='title'
           placeholder='活動名稱'
           value={title}
-          containerStyle={{width: 230}}
+          containerStyle={{ width: 230 }}
           onChangeText={(text) => setTitle(text)}
           errorMessage={errors.title}
           onBlur={onBlur}
           leftIcon={
-            <InputImage
-              icon={iconTicket}
-              errorIcon={iconTicketError}
+            <InputIcon
+              size={30}
+              type='material'
+              name='local-activity'
+              color={colors.greyLightest}
               isError={!isEmpty(errors.title)}
             />
           }
@@ -174,9 +180,11 @@ const CreateActivityScreen = (props) => {
           errorMessage={errors.datingAt}
           onBlur={onBlur}
           leftIcon={
-            <InputImage
-              icon={inputCalendar}
-              errorIcon={inputCalendarError}
+            <InputIcon
+              size={30}
+              type='material'
+              name='calendar-today'
+              color={colors.greyLightest}
               isError={!isEmpty(errors.datingAt)}
             />
           }
@@ -188,9 +196,11 @@ const CreateActivityScreen = (props) => {
           errorMessage={errors.finalReviewAt}
           onBlur={onBlur}
           leftIcon={
-            <InputImage
-              icon={inputDeadline}
-              errorIcon={inputDeadlineError}
+            <InputIcon
+              size={30}
+              type='material'
+              name='event-available'
+              color={colors.greyLightest}
               isError={!isEmpty(errors.finalReviewAt)}
             />
           }
@@ -200,13 +210,15 @@ const CreateActivityScreen = (props) => {
           placeholder='參與人數'
           value={userCountMax}
           errorMessage={errors.userCountMax}
-          containerStyle={{width: 230}}
+          containerStyle={{ width: 230 }}
           onChangeText={(text) => setUserCountMax(text)}
           onBlur={onBlur}
           leftIcon={
-            <InputImage
-              icon={iconPerson}
-              errorIcon={iconPersonError}
+            <InputIcon
+              size={30}
+              type='material'
+              name='people'
+              color={colors.greyLightest}
               isError={!isEmpty(errors.userCountMax)}
             />
           }
@@ -219,10 +231,12 @@ const CreateActivityScreen = (props) => {
           onValueChange={(value) => setType(value)}
           onBlur={onBlur}
           leftIcon={
-            <InputImage
-              icon={iconTag}
-              errorIcon={iconTagError}
-              isError={!isEmpty(errors.title)}
+            <InputIcon
+              size={30}
+              type='material'
+              name='bookmarks'
+              color={colors.greyLightest}
+              isError={!isEmpty(errors.type)}
             />
           }
         />
@@ -231,13 +245,15 @@ const CreateActivityScreen = (props) => {
           placeholder='消費預算'
           value={budget}
           errorMessage={errors.budget}
-          containerStyle={{width: 230}}
+          containerStyle={{ width: 230 }}
           onBlur={onBlur}
           onChangeText={(text) => setBudget(text)}
           leftIcon={
-            <InputImage
-              icon={inputCredit}
-              errorIcon={inputCreditError}
+            <InputIcon
+              size={30}
+              type='material'
+              name='credit-card'
+              color={colors.greyLightest}
               isError={!isEmpty(errors.budget)}
             />
           }
@@ -250,9 +266,11 @@ const CreateActivityScreen = (props) => {
           items={PAYMENT_METHOD}
           onBlur={onBlur}
           leftIcon={
-            <InputImage
-              icon={inputCoin}
-              errorIcon={inputCoinError}
+            <InputIcon
+              size={30}
+              type='material'
+              name='monetization-on'
+              color={colors.greyLightest}
               isError={!isEmpty(errors.paymentMethod)}
             />
           }
@@ -263,9 +281,11 @@ const CreateActivityScreen = (props) => {
           onConfirm={confirmPlace}
           onBlur={onBlur}
           leftIcon={
-            <InputImage
-              icon={iconLocate}
-              errorIcon={iconLocateError}
+            <InputIcon
+              size={30}
+              type='material'
+              name='place'
+              color={colors.greyLightest}
               isError={!isEmpty(errors.place)}
             />
           }
@@ -283,6 +303,7 @@ const CreateActivityScreen = (props) => {
         <Button title='確認' onPress={onSubmit} />
       </View>
     </ScrollView>
+    </ViewContainer>
   );
 };
 

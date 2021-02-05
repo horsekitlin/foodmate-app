@@ -1,11 +1,12 @@
 import React, {Fragment} from 'react';
 import isEmpty from 'lodash/isEmpty';
 import {StyleSheet, View} from 'react-native';
-import {Overlay, Image, Text} from 'react-native-elements';
+import {Overlay, Text} from 'react-native-elements';
 import propTypes from 'prop-types';
 import Button from '~/components/Button';
 import colors from '~/theme/color';
 import format from 'date-fns/format';
+import Image from '~/components/Image';
 import confirmImage from '~/assets/images/image-comfirm-activity.png';
 
 const LabelText = ({label, content}) => {

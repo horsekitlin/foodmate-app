@@ -5,17 +5,24 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const ScrollContainer = ({children, containerStyle, ...props}) => {
   return (
-    <View style={[styles.container, containerStyle]}>
-      <KeyboardAwareScrollView {...props}>{children}</KeyboardAwareScrollView>
+    <View style={[styles.root, containerStyle]}>
+      <KeyboardAwareScrollView {...props} style={styles.layout} containerStyle={styles.container}>
+        {children}
+      </KeyboardAwareScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
-    display: 'flex',
+    width: '100%',
   },
+  layout: {
+    flex: 1,
+    width: '100%',
+    display: 'flex',
+  }
 });
 
 ScrollContainer.propTypes = {

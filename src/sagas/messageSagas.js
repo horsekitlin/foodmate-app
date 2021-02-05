@@ -50,6 +50,7 @@ export function* getMessagesSaga({ payload }) {
       const items = room.messages.map(message => {
         return {
           ...message,
+          room: room.room,
           text: isNull(message.text)? '': message.text,
           image: isNull(message.image)? '': message.image,
           attachment: isNull(message.attachment)? '': message.attachment,

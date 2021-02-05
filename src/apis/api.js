@@ -5,6 +5,7 @@ import {
   fetchPostWithToken,
   fetchPatchWithToken,
   fetchWithFormData,
+  fetchDeleteWithFormData,
 } from './libs/fetch';
 
 export const getRoomsResult = (customHeaders, payload) =>
@@ -60,6 +61,9 @@ export const getUserByAccountResult = (customHeaders, { account }) =>
 
 export const uploadImgUrlResult = (customHeaders, formData) =>
   fetchWithFormData('https://api.imgur.com/3/upload', customHeaders, formData);
+
+export const deleteImglResult = (customHeaders, imageHash) =>
+  fetchDeleteWithFormData(`https://api.imgur.com/3/image/${imageHash}`, customHeaders);
 
 export const loginResult = async (payload) => {
   try {

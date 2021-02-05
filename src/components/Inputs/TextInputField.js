@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet } from 'react-native';
 import { Input, Image } from 'react-native-elements';
 import { Keyboard } from 'react-native'
+
 const TextInputField = ({
   placeholder,
   iconName,
@@ -62,7 +63,7 @@ const getStyles = (theme, props) => {
       // backgroundColor: '#000'
     },
     inputContainer: {
-      borderBottomWidth: 2,
+      borderBottomWidth: 1,
       borderColor: props.errorMessage
         ? theme.colors.error
         : theme.colors.greyLightest,

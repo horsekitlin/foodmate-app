@@ -1,31 +1,35 @@
-import React, {Fragment, useState} from 'react';
+import React, { Fragment, useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import format from 'date-fns/format';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import {Icon, Image} from 'react-native-elements';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { Icon } from 'react-native-elements';
 import colors from '~/theme/color';
 import Text from '~/components/Text';
 import Tags from '~/components/Tags';
 import Button from '~/components/Button';
 import introIcon from '~/assets/icons/icon_intro.png';
-import locationIcon from '~/assets/icons/icon_location_primary.png';
+import ViewContainer from '~/components/ViewContainer';
 import EventPhotoBlock from '~/components/EventPhotoBlock';
+import locationIcon from '~/assets/icons/icon_location_primary.png';
 import {useEventDetail} from '~/models';
-import WebView from 'react-native-webview';
-import {iconParticipantActive} from '~/assets/icons';
+import Image from '~/components/Image';
+import { iconParticipantActive } from '~/assets/icons';
 import EventButton from './components/EventButton';
 import JoinDialog from './components/JoinDialog';
-import {useNavigation} from 'react-native-navigation-hooks';
+import { useNavigation, useNavigationButtonPress } from 'react-native-navigation-hooks';
+import { TouchableOpacity } from 'react-native';
+import { onMapOpen } from '~/helper/googleMapHelper';
+
+const TOP_BAR_RIGHT_BUTTON_ID = '#$%_right_button';
 
 const handleGoMembers = (push, eventName, eventId) => () => {
-  push('EventMember', { title: `${eventName} 成員`,
-   eventId });
+  push('EventMember', { title: `${eventName} 成員`, eventId });
 };
 
 const getValidatedUserCount = (users) => {
   let count = 0;
-  users.map(user => {
-    if(user.status === 1) {
+  users.map((user) => {
+    if (user.status === 1) {
       count++;
     }
   });
@@ -33,10 +37,20 @@ const getValidatedUserCount = (users) => {
 };
 
 const EventDetail = (props) => {
-  const {eventId} = props.passProps;
+  const { eventId } = props.passProps;
   const [visible, setVisible] = useState(false);
-  const { push } = useNavigation();
+  const { push, setStackRoot } = useNavigation();
   const event = useEventDetail(eventId);
+
+
+  useNavigationButtonPress((e) => {
+    if (
+      props.componentId === e.componentId &&
+      e.buttonId === TOP_BAR_RIGHT_BUTTON_ID
+    ) {
+      setStackRoot('Events');
+    }
+  });
 
   if (isEmpty(props.passProps) || isEmpty(event)) return <Fragment />;
 
@@ -44,10 +58,15 @@ const EventDetail = (props) => {
   const validatedUserCount = getValidatedUserCount(event.users);
 
   return (
-    <Fragment>
-      <JoinDialog visible={visible} push={push} event={event} setVisible={setVisible}/>
-      <ScrollView contentContainerStyle={styles.scroll} >
-        <EventPhotoBlock hideButton uri={event.logo} />
+    <ViewContainer>
+      <JoinDialog
+        visible={visible}
+        push={push}
+        event={event}
+        setVisible={setVisible}
+      />
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <EventPhotoBlock hideButton uri={event.logo.url} />
         <View style={styles.baseInfoContainer}>
           <Text h1 style={styles.title}>
             {event.title}
@@ -107,31 +126,44 @@ const EventDetail = (props) => {
           <Image source={locationIcon} style={styles.introIcon} />
           <Text h3>地點</Text>
         </View>
-        <View style={styles.place}>
-          <Text h4 style={styles.mainPlace}>
-            {event.place.structured_formatting.main_text}
-          </Text>
-          <Text h6 style={styles.subPlace}>
-            {event.place.structured_formatting.secondary_text}
-          </Text>
-        </View>
-        <View style={styles.map}>
-          <WebView
-            style={{width: '100%', height: 600}}
-            source={{
-              uri: `https://www.google.com/maps/search/?api=1&query=taiwan&query_place_id=${event.place.place_id}&map_action=map`,
-            }}
-          />
-        </View>
+        <TouchableOpacity onPress={onMapOpen(event.place)} style={styles.place}>
+          <View >
+            <Text h4 style={styles.mainPlace}>
+              {event.place.structured_formatting.main_text}
+            </Text>
+            <Text h6 style={styles.subPlace}>
+              {event.place.structured_formatting.secondary_text}
+            </Text>
+          </View>
+        </TouchableOpacity>
       </ScrollView>
-    </Fragment>
+    </ViewContainer>
   );
 };
 
+EventDetail.options = {
+  topBar: {
+    leftButtons: [ 
+      {
+        id: TOP_BAR_RIGHT_BUTTON_ID,
+        icon: require('assets/icons/chevron_left.png'),
+        iconInsets: { left: 50},
+        color: colors.grey,
+      },
+    ]
+  },
+};
+
 const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flex: 1,
+    backgroundColor: '#FFF'
+  },
   scroll: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#FFF',
   },
   baseInfoContainer: {
     padding: 10,

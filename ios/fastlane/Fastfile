@@ -22,7 +22,7 @@ platform :ios do
   end
 
 
-  desc "deploy testflight"
+  desc "deploy firebase uat"
   lane :beta do
     match(type: "adhoc", app_identifier: ENV["FASTLANE_IOS_APP_ID"], readonly: true)
 

@@ -8,11 +8,12 @@ import {
   Dimensions,
 } from 'react-native';
 import {useNavigationButtonPress} from 'react-native-navigation-hooks';
-import {Avatar} from 'react-native-elements';
 import colors from '~/theme/color';
 import Text from '~/components/Text';
 import Button from '~/components/Button';
+import Avatar from '~/components/Avatar';
 import SearchBar from '~/components/SearchBar';
+import ViewContainer from '~/components/ViewContainer';
 import QRCodeScannerModal from '~/components/QRCodeScannerModal';
 
 const {width} = Dimensions.get('window');
@@ -89,7 +90,7 @@ const Content = ({
 
   return (
     <View style={styles.resultMask}>
-      <Avatar rounded size='xlarge' source={{uri: user.get('avatar')}} />
+      <Avatar rounded size='xlarge' source={{uri: user.getIn(['avatar', 'url'])}} />
       <Text h3 style={styles.resultTitle}>
         {user.get('name')}
       </Text>
@@ -138,14 +139,14 @@ const SearchScreen = ({
   }, [friendAccount]);
 
   return (
-    <View style={{flex: 1}}>
+    <ViewContainer>
       <QRCodeScannerModal
         visible={showModal}
         onClose={() => setShowModal(false)}
         onRead={({data}) => {
           setValue(data);
           setShowModal(false);
-          handleGetUserByAccount({account: value});
+          handleGetUserByAccount({account: data});
         }}
       />
       <SearchBar
@@ -166,7 +167,7 @@ const SearchScreen = ({
         handleRejectInviteFriend={handleRejectInviteFriend}
         handleApproveInviteFriend={handleApproveInviteFriend}
       />
-    </View>
+    </ViewContainer>
   );
 };
 

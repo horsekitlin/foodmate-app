@@ -1,3 +1,5 @@
+import imageSchema from './imageSchema';
+
 const friendSchema = {
   title: 'friends',
   version: 0,
@@ -14,9 +16,7 @@ const friendSchema = {
     gender: {
       type: ['number', 'null'],
     },
-    avatar: {
-      type: 'string',
-    },
+    avatar:imageSchema,
     name: {
       type: 'string',
     },
@@ -47,9 +47,7 @@ const friendSchema = {
         account: {
           type: 'string',
         },
-        avatar: {
-          type: 'string',
-        },
+        avatar: imageSchema,
       }
     },
     createAt: {

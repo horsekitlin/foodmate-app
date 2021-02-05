@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import {StyleSheet} from 'react-native';
-import {Overlay, Image} from 'react-native-elements';
+import {Overlay} from 'react-native-elements';
+import Image from '~/components/Image';
 import Button from '~/components/Button';
 import confirmImage from '~/assets/images/image-success-join.png';
 

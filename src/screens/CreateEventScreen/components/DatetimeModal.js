@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 54,
     width: '100%',
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     alignItems: 'center',
     borderColor: colors.greyLightest,
   },

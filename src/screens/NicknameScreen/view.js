@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useNavigation} from 'react-native-navigation-hooks/dist';
 import {View, StyleSheet, ImageBackground, Text} from 'react-native';
 import Button from '~/components/Button';
+import ViewContainer from '~/components/ViewContainer';
 import InputImage from '~/components/Inputs/InputImage';
 import TextInputField from '~/components/Inputs/TextInputField';
 import registerBackground from '~/assets/images/register_bg.png';
@@ -30,7 +31,7 @@ const NicknameScreen = ({ userId, handleUpdateUser }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ViewContainer>
       <ImageBackground source={registerBackground} style={styles.image}>
       <View style={styles.offsetTop}></View>
         <View style={styles.section}>
@@ -50,7 +51,7 @@ const NicknameScreen = ({ userId, handleUpdateUser }) => {
           <Text style={styles.typography}>{MESSAGES[step]}</Text>
         </View>
       </ImageBackground>
-    </View>
+    </ViewContainer>
   );
 };
 
@@ -61,9 +62,6 @@ NicknameScreen.options = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   offsetTop: {
     flex: 1,
   },

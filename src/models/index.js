@@ -124,6 +124,6 @@ export const useEventRooms = (authUserId) => {
   return useEventRoomsHook(foodmateDB, authUserId);
 };
 
-export const useMessages = () => {
-  return useMessagesHook(foodmateDB);
+export const useMessages = (roomId) => {
+  return useMessagesHook(foodmateDB, roomId);
 };

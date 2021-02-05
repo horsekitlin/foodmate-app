@@ -146,12 +146,12 @@ PickPlaceModal.defaultProps = {
 
 const styles = StyleSheet.create({
   fieldContainer: {
-    height: 65,
+    height: 50,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderColor: colors.greyLightest,
   },
   icon: {

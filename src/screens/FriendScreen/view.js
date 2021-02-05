@@ -8,6 +8,7 @@ import {
 import {useFriends} from '~/models';
 import colors from '~/theme/color';
 import RowItem from './components/RowItem';
+import ViewContainer from '~/components/ViewContainer';
 
 const TOP_BAR_RIGHT_BUTTON_ID = '#$%_right_button';
 
@@ -41,7 +42,7 @@ const FriendScreen = (props) => {
   }, []);
 
   return (
-    <Fragment>
+    <ViewContainer>
       <SectionList
         sections={data}
         keyExtractor={(item) => item.id}
@@ -50,7 +51,7 @@ const FriendScreen = (props) => {
           <SectionTitle title={title} />
         )}
       />
-    </Fragment>
+    </ViewContainer>
   );
 };
 

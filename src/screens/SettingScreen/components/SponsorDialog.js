@@ -1,7 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import isEmpty from 'lodash/isEmpty';
 import {View, StyleSheet, Linking} from 'react-native';
-import {Overlay, Image, Icon} from 'react-native-elements';
+import {Overlay, Icon} from 'react-native-elements';
 import {ethers} from 'ethers';
 import Text from '~/components/Text';
 import Button from '~/components/Button';
@@ -11,6 +11,7 @@ import InputImage from '~/components/Inputs/InputImage';
 import TextInputField from '~/components/Inputs/TextInputField';
 import {iconTag, iconTagError} from '~/assets/icons';
 import Config from 'react-native-config';
+import Image from '~/components/Image';
 
 export const ICON_TYPES = [
   {label: 'USDT', value: 'usdt'},

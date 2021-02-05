@@ -1,13 +1,22 @@
-const GREY = '#727272';
+const BLACK = '#000';
+const WHITE = '#FFF';
+const GREY = '#707070';
 const GREY_LIGHT = '#a3a1a2';
+const GREY_LIGHTER = '#cacaca';
+const GREY_LIGHTEST = '#f0f0f0';
+const PRIMARY = '#FFD88B';
+const SECONDARY = '#272123';
+const SUCCESS = '#2ec039';
+const PINK = '#ffbaba';
+const RED = '#FF7B7B';
+const WARNING = '#faad14';
 
 const colors = {
-  black: '#000000',
-  white: '#ffffff',
+  black: BLACK,
+  white: WHITE,
   default: GREY,
-  primary: '#FFD88B',
-  secondary: '#272123',
-  brown: '#665030',
+  primary: PRIMARY,
+  secondary: SECONDARY,
   background: '#f7f7f9',
   goldDark: '#dd984d',
   gold: '#ebce97',
@@ -17,9 +26,9 @@ const colors = {
   greyLight: GREY_LIGHT,
   greyLighter: '#cacaca',
   greyLightest: '#f0f0f0',
-  success: '#2ec039',
-  error: '#ffbaba',
-  warning: '#faad14',
+  success: SUCCESS,
+  error: PINK,
+  warning: WARNING,
   donut: '#ffc17a',
   transparent: 'transparent',
   disabled: GREY_LIGHT,

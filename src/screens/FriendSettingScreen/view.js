@@ -5,13 +5,14 @@ import Button from '~/components/Button';
 import colors from '~/theme/color';
 import Subtitle from '~/components/Subtitle';
 import Description from '~/components/Description';
+import ViewContainer from '~/components/ViewContainer';
 import { useNavigation } from 'react-native-navigation-hooks';
 
 const FriendSettingScreen = ({ friendId, handleDeleteFriend }) => {
   const { popToRoot } = useNavigation();
 
   return (
-    <View style={styles.from}>
+    <ViewContainer>
       <View style={styles.title}>
         <Text h2>設定</Text>
       </View>
@@ -29,7 +30,7 @@ const FriendSettingScreen = ({ friendId, handleDeleteFriend }) => {
             handleDeleteFriend(payload);
           }} />
       </View>
-    </View>
+    </ViewContainer>
   );
 };
 

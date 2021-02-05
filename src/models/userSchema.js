@@ -1,3 +1,5 @@
+import imageSchema from './imageSchema';
+
 const userSchema = {
   version: 0,
   title: 'human schema no compression',
@@ -12,9 +14,7 @@ const userSchema = {
     account: {
       type: 'string',
     },
-    avatar: {
-      type: 'string',
-    },
+    avatar: imageSchema,
   },
   indexes: [
     'id',

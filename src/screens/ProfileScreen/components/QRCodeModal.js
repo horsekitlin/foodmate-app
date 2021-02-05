@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Overlay} from 'react-native-elements';
 import QRCode from 'react-native-qrcode-generator';
 import Text from '~/components/Text';
 import colors from '~/theme/color';
+import Image from '~/components/Image';
 import logo from '~/assets/images/avatar.png'
 
 const QRCodeModal = (props) => {

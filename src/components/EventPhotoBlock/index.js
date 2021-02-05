@@ -1,24 +1,23 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import {Button} from 'react-native-elements';
-import {StyleSheet, View, Dimensions, Image} from 'react-native';
+import { Button } from 'react-native-elements';
+import { StyleSheet, View, Dimensions } from 'react-native';
+import Image from '~/components/Image';
 import colors from '~/theme/color';
 
-const {width: screenWidth} = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 
 const ImagePlaceholder = () => {
   return <View style={styles.imagePlaceHolder}></View>;
 };
 
-const SelectedImage = ({uri}) => {
+const SelectedImage = ({ uri }) => {
   if (isEmpty(uri)) return <ImagePlaceholder />;
-  return <Image source={{uri}} style={[styles.image, { resizeMode: 'stretch', }]} />;
+  return <Image source={{uri}} style={styles.image} />;
 };
 
-const EventPhoto = ({uri, onEditClick, hideButton, btnText}) => {
-
-
+const EventPhotoBlock = ({uri, onEditClick, hideButton, btnText}) => {
   return (
     <View style={styles.imageContainer}>
       <SelectedImage uri={uri} />
@@ -35,14 +34,14 @@ const EventPhoto = ({uri, onEditClick, hideButton, btnText}) => {
   );
 };
 
-EventPhoto.propTypes = {
+EventPhotoBlock.propTypes = {
   uri: propTypes.string,
   btnText: propTypes.string,
   hideButton: propTypes.bool,
   onEditClick: propTypes.func,
 };
 
-EventPhoto.defaultProps = {
+EventPhotoBlock.defaultProps = {
   uri: '',
   btnText: '編輯活動照',
   hideButton: false,
@@ -52,9 +51,8 @@ EventPhoto.defaultProps = {
 const styles = StyleSheet.create({
   image: {
     width: screenWidth,
-    resizeMode: 'contain',
-    minHeight: 200,
-    backgroundColor: '#eee',
+    resizeMode: 'cover',
+    height: 250,
   },
   imagePlaceHolder: {
     backgroundColor: '#eee',
@@ -65,6 +63,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    borderTopWidth: 4,
+    borderBottomWidth: 4,
+    borderTopColor: colors.primary,
+    borderBottomColor: colors.greyLightest,
   },
   buttonContainer: {
     margin: 5,
@@ -86,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventPhoto;
+export default EventPhotoBlock;

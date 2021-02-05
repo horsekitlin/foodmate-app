@@ -1,6 +1,7 @@
 import React, {useEffect, Fragment} from 'react';
 import {StyleSheet} from 'react-native';
-import {ListItem, Icon, Avatar, colors} from 'react-native-elements';
+import {ListItem, Icon, colors} from 'react-native-elements';
+import Avatar from '~/components/Avatar';
 
 async function asyncIteratorWatcher(
   channel,

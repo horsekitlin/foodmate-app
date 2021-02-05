@@ -15,7 +15,9 @@ import {
 } from 'react-native-navigation-hooks';
 import colors from '~/theme/color';
 import Text from '~/components/Text';
+import ViewContainer from '~/components/ViewContainer';
 import socketClusterHelper from '~/helper/socketClusterHelpers';
+import { getResolution, RESOLUTION } from '~/helper/imageResolutionHelper';
 
 const TOP_BAR_RIGHT_BUTTON_ID = '#$%_right_button';
 
@@ -27,7 +29,7 @@ const EventCard = ({ event, push }) => {
       style={styles.cardContainer}
       onPress={() => push('EventDetail', { passProps: { eventId: event.id } })}>
       <View style={styles.card}>
-        <Image source={{ uri: event.logo }} style={styles.cardImage} />
+        <Image source={{ uri: getResolution(event.logo.url, RESOLUTION.LARGE) }} style={styles.cardImage} />
         <View style={styles.cardBody}>
           <View style={styles.datetime}>
             <Text style={styles.datetimeText}>
@@ -74,7 +76,7 @@ const EventsScreen = (props) => {
 
 
   return (
-    <View style={styles.container}>
+    <ViewContainer>
       <FlatList
         keyExtractor={(item) => item.id}
         data={events}
@@ -98,15 +100,11 @@ const EventsScreen = (props) => {
           return <EventCard event={item} push={push} />;
         }}
       />
-    </View>
+    </ViewContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
   list: {
     flexDirection: 'column',
     margin: 5,

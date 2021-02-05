@@ -1,36 +1,37 @@
-import React, {Fragment, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Image} from 'react-native-elements';
-import {useNavigation} from 'react-native-navigation-hooks';
+import React, { Fragment, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Image } from 'react-native-elements';
+import { useNavigation } from 'react-native-navigation-hooks';
 import Text from '~/components/Text';
 import confirmImage from '~/assets/images/image-take-part.png';
 import colors from '~/theme/color';
 import Button from '~/components/Button';
 import TextArea from '~/components/TextArea';
 import SuccessDialog from './components/SuccessDialog';
+import ViewContainer from '~/components/ViewContainer';
 import ScrollContainer from '~/components/ScrollContainer';
 
 const handleOnChange = (setter) => (name) => (value) => {
-  setter((payload) => ({...payload, [name]: value}));
+  setter((payload) => ({ ...payload, [name]: value }));
 };
 
-const handleSubmit = ({payload, event, setVisible, handleJoinEvent}) => () => {
+const handleSubmit = ({ payload, event, setVisible, handleJoinEvent }) => () => {
   setVisible(true);
-  handleJoinEvent({eventId: event.id, ...payload});
+  handleJoinEvent({ eventId: event.id, ...payload });
 };
 
-const JoinEventScreen = ({eventId, handleJoinEvent, event}) => {
+const JoinEventScreen = ({ eventId, handleJoinEvent, event }) => {
   const [payload, setPayload] = useState({});
   const [visible, setVisible] = useState(false);
-  const {pop} = useNavigation();
+  const { pop } = useNavigation();
 
   const onChange = handleOnChange(setPayload);
-  const onSubmit = handleSubmit({payload, event, setVisible, handleJoinEvent});
+  const onSubmit = handleSubmit({ payload, event, setVisible, handleJoinEvent });
 
 
   return (
-    <ScrollContainer>
-      <Fragment>
+    <ViewContainer>
+      <ScrollContainer>
         <SuccessDialog visible={visible} setVisible={setVisible} pop={pop} />
         <View style={styles.container}>
           <Image source={confirmImage} style={styles.headerImg} />
@@ -51,8 +52,8 @@ const JoinEventScreen = ({eventId, handleJoinEvent, event}) => {
           <Button title='提交' onPress={onSubmit} onPress={onSubmit} />
           <Button title='取消' type='outline' onPress={() => pop()} />
         </View>
-      </Fragment>
-    </ScrollContainer>
+      </ScrollContainer>
+    </ViewContainer>
   );
 };
 

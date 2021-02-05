@@ -25,33 +25,35 @@ const SelectInput = ({
   const isError = !isEmpty(errorMessage);
   const [errorStyle, errorFormStyle] = isError
     ? [styles.errorStyle, { height: 70 }]
-    : [{}, { height: 50 }];
+    : [{}, { height: 40 }];
 
   return (
-    <View style={[styles.formBox, errorFormStyle]}>
-      <View style={[styles.container, containerStyle, errorStyle]}>
-        <LeftIcon leftIcon={leftIcon} />
-        <RNPickerSelect
-          useNativeAndroidPickerStyle={false}
-          placeholder={{
-            label: placeholderText,
-            value: null,
-          }}
-          value={value}
-          items={items}
-          Icon={() => null}
-          onValueChange={onValueChange}
-          textInputProps={{
-            style: [
-              styles.select,
-              isNull(value) ? styles.placeholder : {}
-            ],
-          }}
-          {...props}
-        />
+    <Fragment>
+      <View style={[styles.formBox, errorFormStyle]}>
+        <View style={[styles.container, containerStyle, errorStyle]}>
+          <LeftIcon leftIcon={leftIcon} />
+          <RNPickerSelect
+            useNativeAndroidPickerStyle={false}
+            placeholder={{
+              label: placeholderText,
+              value: null,
+            }}
+            value={value}
+            items={items}
+            Icon={() => null}
+            onValueChange={onValueChange}
+            textInputProps={{
+              style: [
+                styles.select,
+                isNull(value) ? styles.placeholder : {}
+              ],
+            }}
+            {...props}
+          />
+        </View>
+        <ErrorMessage errorMessage={errorMessage} />
       </View>
-      <ErrorMessage errorMessage={errorMessage} />
-    </View>
+    </Fragment>
   );
 };
 
@@ -81,9 +83,11 @@ const styles = StyleSheet.create({
   formBox: {
     width: '100%',
     display: 'flex',
+    marginTop: 16,
   },
   container: {
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
+    paddingBottom: 8,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -95,6 +99,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     paddingRight: 10,
+    marginTop: -4,
   },
   select: {
     fontSize: 16,

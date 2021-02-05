@@ -1,3 +1,5 @@
+import imageSchema from './imageSchema';
+
 const eventSchema = {
   title: 'events',
   version: 0,
@@ -37,8 +39,8 @@ const eventSchema = {
         structured_formatting: {
           type: 'object',
           properties: {
-            main_text: {type: 'string'},
-            secondary_text: {type: 'string'},
+            main_text: { type: 'string' },
+            secondary_text: { type: 'string' },
           }
         }
       }
@@ -61,9 +63,7 @@ const eventSchema = {
         account: {
           type: 'string',
         },
-        avatar: {
-          type: 'string',
-        },
+        avatar: imageSchema,
       },
     },
     users: {
@@ -97,9 +97,7 @@ const eventSchema = {
               account: {
                 type: 'string',
               },
-              avatar: {
-                type: 'string',
-              },
+              avatar: imageSchema,
             },
           },
         },
@@ -108,9 +106,7 @@ const eventSchema = {
     title: {
       type: 'string',
     },
-    logo: {
-      type: 'string',
-    },
+    logo: imageSchema,
     publicationPlace: {
       type: 'string',
     },
@@ -154,6 +150,9 @@ const eventSchema = {
     budget: {
       type: 'number',
     },
+    // tags: {
+    //   type: 'array',
+    // },
   },
   indexes: ['id', 'updateAt', 'createAt'],
   required: [],

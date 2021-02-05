@@ -145,4 +145,20 @@ export const fetchWithFormData = async (url, customHeaders, formData) => {
   }catch(error) {
     throw error;
   }
-}
+};
+
+export const fetchDeleteWithFormData = async (url, customHeaders, formData={}) => {
+  try {
+    return fetch(url, {
+      method: 'DELETE',
+      headers: {
+        ...customHeaders,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      mimeType: 'multipart/form-data',
+      body: formData
+    }).then((resp) => resp.json());
+  } catch(error) {
+    throw error;
+  };
+};

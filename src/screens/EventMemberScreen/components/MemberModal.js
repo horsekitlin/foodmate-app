@@ -1,10 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { StyleSheet, View } from 'react-native';
-import { Overlay, Avatar, Image } from 'react-native-elements';
+import { Overlay } from 'react-native-elements';
 import Text from '~/components/Text';
-import Button from '~/components/Button';
 import colors from '~/theme/color';
+import Image from '~/components/Image';
+import Button from '~/components/Button';
+import Avatar from '~/components/Avatar';
 import confirmImage from '~/assets/images/image-join-request.png';
 
 const handleApprove = ({
@@ -155,7 +157,7 @@ const DetailContent = ({ push, show, member, eventId, isAdmin, onClose, handleRe
 
   return (
     <View style={styles.content}>
-      <Avatar rounded size='large' source={{ uri: member.info.avatar }} />
+      <Avatar rounded size='large' source={{ uri: member.info.avatar.url }} />
       <Text h2>{member.info.name}</Text>
       <Button
         title='檢視個人資料'

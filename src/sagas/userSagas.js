@@ -141,7 +141,7 @@ export function* updateUserSaga({payload}) {
     };
     const {result} = yield call(updateUserResult, customHeaders, payload);
 
-    yield put(okUpdate(result.data));
+    yield put(okUpdate({ ...result.data, name: payload.name}));
     rootNavigator();
   } catch (error) {
     const errorAction = errorUpdate(error);

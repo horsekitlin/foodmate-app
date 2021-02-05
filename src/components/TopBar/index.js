@@ -1,8 +1,9 @@
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
-import {View, Text, Image, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet } from 'react-native';
 import logo from '~/assets/images/logo-whitout-underline.png';
 import colors from '~/theme/color';
+import Image from '~/components/Image';
 
 const TitleTopBar = ({title}) => {
   return (

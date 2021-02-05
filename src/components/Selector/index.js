@@ -47,10 +47,20 @@ const Selector = ({
     : styles.dividerStyle;
 
   return (
-    <View style={[styles.container, containerStyle]}>
-      <Text h6 color={titleColorKey} fontWeight='medium'>
-        {label}
-      </Text>
+    <Fragment>
+      <View style={[styles.container]}>
+        <Text h6 color={titleColorKey} fontWeight='medium'>
+          {label}
+        </Text>
+        <Divider style={dividerStyle} />
+        <Text
+          h6
+          color='error'
+          isVisible={hasError}
+          style={styles.errorMessageStyle}>
+          {errorMessage}
+        </Text>
+      </View>
       <RNPickerSelect
         hideDoneBar
         useNativeAndroidPickerStyle={false}
@@ -64,22 +74,16 @@ const Selector = ({
           />
         )}
         {...props}
-      />
-      <Divider style={dividerStyle} />
-      <Text
-        h6
-        color='error'
-        isVisible={hasError}
-        style={styles.errorMessageStyle}>
-        {errorMessage}
-      </Text>
-    </View>
+      /></Fragment>
   );
 };
 
 const getStyles = theme => {
   return StyleSheet.create({
     container: {
+      backgroundColor: '#000',
+      position: 'relative',
+      height: 180,
       marginTop: theme.spacing.smallest,
       marginBottom: theme.spacing.smallest,
     },
